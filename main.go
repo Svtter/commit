@@ -40,16 +40,22 @@ func main() {
 	errout, out, err := shellout("git", "add", ".")
 	if err != nil {
 		outputError(out, errout, err)
+	} else {
+		log.Printf(out)
 	}
 
 	commitArgs := readFromCommand()
 	errout, out, err = shellout("git", "commit", "-m", commitArgs)
 	if err != nil {
 		outputError(out, errout, err)
+	} else {
+		log.Printf(out)
 	}
 
 	errout, out, err = shellout("git", "push")
 	if err != nil {
 		outputError(out, errout, err)
+	} else {
+		log.Printf(out)
 	}
 }
