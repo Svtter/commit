@@ -36,26 +36,22 @@ func outputError(out string, errout string, err error) {
 	log.Fatalf("stderr: %v", errout)
 }
 
-func main() {
-	errout, out, err := shellout("git", "add", ".")
+func output(out, errout string, err error) {
 	if err != nil {
 		outputError(out, errout, err)
 	} else {
 		log.Println(out)
 	}
+}
+
+func main() {
+	errout, out, err := shellout("git", "add", ".")
+	output(out, errout, err)
 
 	commitArgs := readFromCommand()
 	errout, out, err = shellout("git", "commit", "-m", commitArgs)
-	if err != nil {
-		outputError(out, errout, err)
-	} else {
-		log.Println(out)
-	}
+	output(out, errout, err)
 
 	errout, out, err = shellout("git", "push")
-	if err != nil {
-		outputError(out, errout, err)
-	} else {
-		log.Println(out)
-	}
+	output(out, errout, err)
 }
