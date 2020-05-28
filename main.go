@@ -41,7 +41,7 @@ func main() {
 	if err != nil {
 		outputError(out, errout, err)
 	} else {
-		log.Printf(out)
+		log.Println(out)
 	}
 
 	commitArgs := readFromCommand()
@@ -49,13 +49,13 @@ func main() {
 	if err != nil {
 		outputError(out, errout, err)
 	} else {
-		log.Printf(out)
+		log.Println(out)
 	}
 
 	errout, out, err = shellout("git", "push")
 	if err != nil {
 		outputError(out, errout, err)
 	} else {
-		log.Printf(out)
+		log.Println(out)
 	}
 }
