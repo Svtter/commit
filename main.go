@@ -40,7 +40,7 @@ func output(out, errout string, err error) {
 	if err != nil {
 		outputError(out, errout, err)
 	} else {
-		log.Println(out)
+		fmt.Print(out)
 	}
 }
 
