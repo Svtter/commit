@@ -8,6 +8,8 @@ import (
 	"os"
 	"os/exec"
 	"strings"
+
+	"github.com/svtter/commit/pkg"
 )
 
 func shellout(command string, args ...string) (string, string, error) {
@@ -45,10 +47,19 @@ func output(out, errout string, err error) {
 }
 
 func main() {
-	errout, out, err := shellout("git", "add", ".")
-	output(out, errout, err)
+	var commitArgs, errout, out string
+	var err error
 
-	commitArgs := readFromCommand()
+	commandLine := pkg.LoadArgs()
+	if commandLine != "" {
+		commitArgs = commandLine
+		fmt.Println("commit message: ", commitArgs)
+	} else {
+		errout, out, err := shellout("git", "add", ".")
+		output(out, errout, err)
+	}
+
+	commitArgs = readFromCommand()
 	errout, out, err = shellout("git", "commit", "-m", commitArgs)
 	output(out, errout, err)
 
