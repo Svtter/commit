@@ -54,7 +54,7 @@ func main() {
 	commandLine := pkg.LoadArgs()
 	if commandLine != "" {
 		commitArgs = commandLine
-		fmt.Println("commit message: ", commitArgs)
+		fmt.Println("commit message:", commitArgs)
 	} else {
 		commitArgs = readFromCommand()
 	}
