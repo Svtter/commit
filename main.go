@@ -47,19 +47,18 @@ func output(out, errout string, err error) {
 }
 
 func main() {
-	var commitArgs, errout, out string
-	var err error
+	var commitArgs string
+	errout, out, err := shellout("git", "add", ".")
+	output(out, errout, err)
 
 	commandLine := pkg.LoadArgs()
 	if commandLine != "" {
 		commitArgs = commandLine
 		fmt.Println("commit message: ", commitArgs)
 	} else {
-		errout, out, err := shellout("git", "add", ".")
-		output(out, errout, err)
+		commitArgs = readFromCommand()
 	}
 
-	commitArgs = readFromCommand()
 	errout, out, err = shellout("git", "commit", "-m", commitArgs)
 	output(out, errout, err)
 
