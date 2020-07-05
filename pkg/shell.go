@@ -10,6 +10,7 @@ import (
 	"strings"
 )
 
+// Shellout function to capture command output
 func Shellout(command string, args ...string) (string, string, error) {
 	var stdout bytes.Buffer
 	var stderr bytes.Buffer
@@ -20,6 +21,7 @@ func Shellout(command string, args ...string) (string, string, error) {
 	return stdout.String(), stderr.String(), err
 }
 
+// ReadFromCommand read commmit msg from command line.
 func ReadFromCommand() string {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Print("commit msg: ")
@@ -30,12 +32,14 @@ func ReadFromCommand() string {
 	return text
 }
 
+// OutputError function to print formatted errors.
 func OutputError(out string, errout string, err error) {
 	log.Printf("Command finished with error: %v", err)
 	log.Printf("stdout: %v", out)
 	log.Fatalf("stderr: %v", errout)
 }
 
+// Output Just another normal output
 func Output(out, errout string, err error) {
 	if err != nil {
 		OutputError(out, errout, err)
