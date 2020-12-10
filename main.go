@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"log"
 
 	"github.com/svtter/commit/pkg"
 )
@@ -14,7 +14,7 @@ func main() {
 	commandLine := pkg.LoadArgs()
 	if commandLine != "" {
 		commitArgs = commandLine
-		fmt.Println("commit message:", commitArgs)
+		log.Println("commit message:", commitArgs)
 	} else {
 		commitArgs = pkg.ReadFromCommand()
 	}

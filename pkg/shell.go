@@ -44,6 +44,6 @@ func Output(out, errout string, err error) {
 	if err != nil {
 		OutputError(out, errout, err)
 	} else {
-		fmt.Print(out)
+		log.Print(out)
 	}
 }
