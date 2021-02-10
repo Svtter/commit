@@ -10,7 +10,7 @@ This tools will commit all of your changes and push current branch to remote.
 - ![Example](./screenshots/example.svg)
 
 
-## install
+## Install
 
 `go get github.com/svtter/commit`
 
