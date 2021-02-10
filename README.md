@@ -7,7 +7,7 @@ This tools will commit all of your changes and push current branch to remote.
 
 ## install
 
-`go install github.com/svtter/commit`
+`go get github.com/svtter/commit`
 
 
 ## Usage
