@@ -5,6 +5,11 @@ Tools for git quick commit.
 This tools will commit all of your changes and push current branch to remote.
 
 
+## Screenshots
+
+- ![ ]()
+
+
 ## install
 
 `go get github.com/svtter/commit`
