@@ -12,7 +12,7 @@ This tools will commit all of your changes and push current branch to remote.
 
 ## Install
 
-`go get github.com/svtter/commit`
+- `go get github.com/svtter/commit` or [Release][3]
 
 
 ## Usage
@@ -33,3 +33,4 @@ This tools will commit all of your changes and push current branch to remote.
 
 [1]: https://github.com/conventional-changelog/commitlint
 [2]: https://github.com/pre-commit/pre-commit
+[3]: https://github.com/Svtter/commit/releases/tag/0.1
