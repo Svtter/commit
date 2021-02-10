@@ -24,3 +24,12 @@ This tools will commit all of your changes and push current branch to remote.
 
 - [ ] Combine with commit msg tools: [lintush](https://github.com/google/lintush)
 
+
+## Related work
+
+- [commitlint][1]
+- [pre-commit][2]
+
+
+[1]: https://github.com/conventional-changelog/commitlint
+[2]: https://github.com/pre-commit/pre-commit
