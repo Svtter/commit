@@ -7,7 +7,7 @@ This tools will commit all of your changes and push current branch to remote.
 
 ## Screenshots
 
-- ![ ]()
+- ![ ](screenshorts/example.svg)
 
 
 ## install
