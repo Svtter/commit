@@ -17,7 +17,7 @@ var (
 // CheckPrefix check the commit message's prefix.
 func CheckPrefix(args string) bool {
 	for key, _ := range starts {
-		if strings.HasPrefix(key, args) {
+		if strings.HasPrefix(args, key) {
 			return true
 		}
 	}
