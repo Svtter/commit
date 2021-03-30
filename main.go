@@ -19,6 +19,7 @@ func main() {
 	}
 	if !pkg.CheckPrefix(commitArgs) {
 		log.Println("commit message is not allowed. Please input with fea/fix/docs/style/refactor/test/chore.")
+		return
 	}
 
 	errout, out, err = pkg.Shellout("git", "commit", "-m", commitArgs)
