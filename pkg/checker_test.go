@@ -24,8 +24,9 @@ func TestCheckPrefix(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if !CheckPrefix(tt.msg) == tt.valid {
-				t.Errorf("tt.msg is not equal to tt.valid")
+			got := CheckPrefix(tt.msg)
+			if got != tt.valid {
+				t.Errorf("CheckPrefix() = %v, want %v", got, tt.valid)
 			}
 		})
 	}
