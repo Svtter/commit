@@ -6,10 +6,19 @@ import (
 	"github.com/svtter/commit/pkg"
 )
 
+// change branch and pull from master
+func changePull(branchName string) {
+	r := pkg.Shellout("git", "checkout", "-b", branchName)
+	r.Output()
+
+	r = pkg.Shellout("git", "pull", "origin", branchName)
+	r.Output()
+}
+
 func main() {
 	var commitArgs string
-	errout, out, err := pkg.Shellout("git", "add", ".")
-	pkg.Output(out, errout, err)
+	r := pkg.Shellout("git", "add", ".")
+	r.Output()
 
 	commandLine := pkg.LoadArgs()
 	if commandLine != "" {
@@ -19,9 +28,9 @@ func main() {
 		commitArgs = pkg.ReadFromCommand()
 	}
 
-	errout, out, err = pkg.Shellout("git", "commit", "-m", commitArgs)
-	pkg.Output(out, errout, err)
+	r = pkg.Shellout("git", "commit", "-m", commitArgs)
+	r.Output()
 
-	errout, out, err = pkg.Shellout("git", "push")
-	pkg.Output(out, errout, err)
+	r = pkg.Shellout("git", "push")
+	r.Output()
 }
