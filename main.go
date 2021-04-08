@@ -17,6 +17,7 @@ func changePull(branchName string) {
 	r.Output()
 }
 
+// handle args from os.Args
 func handleArgs() error {
 	var commitArgs string
 	r := pkg.Shellout("git", "add", ".")
