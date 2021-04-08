@@ -1,14 +1,26 @@
 package main
 
 import (
-	"github.com/svtter/commit/pkg"
 	"log"
+	"os"
+
+	"github.com/svtter/commit/pkg"
+	"github.com/urfave/cli/v2"
 )
 
-func main() {
+// change branch and pull from master
+func changePull(branchName string) {
+	r := pkg.Shellout("git", "checkout", "-b", branchName)
+	r.Output()
+
+	r = pkg.Shellout("git", "pull", "origin", branchName)
+	r.Output()
+}
+
+func handleArgs() error {
 	var commitArgs string
-	errout, out, err := pkg.Shellout("git", "add", ".")
-	pkg.Output(out, errout, err)
+	r := pkg.Shellout("git", "add", ".")
+	r.Output()
 
 	commandLine := pkg.LoadArgs()
 	if commandLine != "" {
@@ -17,15 +29,28 @@ func main() {
 	} else {
 		commitArgs = pkg.ReadFromCommand()
 	}
-	if !pkg.CheckPrefix(commitArgs) {
-		log.Println("commit message is not allowed. Please input with fea/fix/docs/style/refactor/test/chore.")
-		return
-	}
 
-	errout, out, err = pkg.Shellout("git", "commit", "-m", commitArgs)
-	pkg.Output(out, errout, err)
+	r = pkg.Shellout("git", "commit", "-m", commitArgs)
+	r.Output()
 
-	errout, out, err = pkg.Shellout("git", "push")
-	pkg.Output(out, errout, err)
+	r = pkg.Shellout("git", "push")
+	r.Output()
+	return nil
 }
 
+func main() {
+	app := &cli.App{
+		Name:  "commit",
+		Usage: "Make git convenient!",
+		Action: func(c *cli.Context) error {
+			err := handleArgs()
+			return err
+		},
+	}
+
+	err := app.Run(os.Args)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+}

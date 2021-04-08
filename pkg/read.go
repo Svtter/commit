@@ -1,3 +1,4 @@
+// Package pkg read arguments from command line.
 package pkg
 
 import (

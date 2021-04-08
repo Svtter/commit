@@ -18,16 +18,16 @@ func TestShellout(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, got1, err := Shellout(tt.args.command, tt.args.args...)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("Shellout() error = %v, wantErr %v", err, tt.wantErr)
+			r := Shellout(tt.args.command, tt.args.args...)
+			if (r.err != nil) != tt.wantErr {
+				t.Errorf("Shellout() error = %v, wantErr %v", r.err, tt.wantErr)
 				return
 			}
-			if got != tt.want {
-				t.Errorf("Shellout() got = %v, want %v", got, tt.want)
+			if r.out != tt.want {
+				t.Errorf("Shellout() got = %v, want %v", r.out, tt.want)
 			}
-			if got1 != tt.want1 {
-				t.Errorf("Shellout() got1 = %v, want %v", got1, tt.want1)
+			if r.errout != tt.want1 {
+				t.Errorf("Shellout() got1 = %v, want %v", r.errout, tt.want1)
 			}
 		})
 	}
@@ -51,9 +51,7 @@ func TestReadFromCommand(t *testing.T) {
 
 func TestOutputError(t *testing.T) {
 	type args struct {
-		out    string
-		errout string
-		err    error
+		r RunResult
 	}
 	tests := []struct {
 		name string
@@ -63,16 +61,14 @@ func TestOutputError(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			OutputError(tt.args.out, tt.args.errout, tt.args.err)
+			tt.args.r.OutputError()
 		})
 	}
 }
 
 func TestOutput(t *testing.T) {
 	type args struct {
-		out    string
-		errout string
-		err    error
+		r RunResult
 	}
 	tests := []struct {
 		name string
@@ -82,7 +78,7 @@ func TestOutput(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			Output(tt.args.out, tt.args.errout, tt.args.err)
+			tt.args.r.Output()
 		})
 	}
 }
