@@ -1,9 +1,24 @@
 package main
 
 import (
-	"github.com/svtter/commit/pkg"
+	"fmt"
 	"log"
+
+	"github.com/svtter/commit/pkg"
+	"github.com/urfave/cli/v2"
 )
+
+func newMain() cli.App {
+	app := &cli.App{
+		Name:  "commit",
+		Usage: "commit a git pipeline.",
+		Action: func(c *cli.Context) error {
+			fmt.Println("Hello friend!")
+			return nil
+		},
+	}
+	return app
+}
 
 func main() {
 	var commitArgs string
@@ -28,4 +43,3 @@ func main() {
 	errout, out, err = pkg.Shellout("git", "push")
 	pkg.Output(out, errout, err)
 }
-
