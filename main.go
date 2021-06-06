@@ -43,6 +43,11 @@ func MainV2() cli.App {
 		Action: func(c *cli.Context) error {
 			isNewBranch := false
 
+			if c.Args().Len() == 0 {
+				MainV1()
+				return nil
+			}
+
 			// fmt.Printf("%+v\n", c.Args())
 			commitMessage = c.Args().First()
 			if isFeature {
