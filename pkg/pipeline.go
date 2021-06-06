@@ -1,16 +1,17 @@
 package pkg
 
 // CommitPipeline is a function used to make git add/commit/push
-func CommitPipeline(commitMessage string) {
+func CommitPipeline(commitMessage string, isNew bool, branchName string) {
 	// git add command
-	errout, out, err := Shellout("git", "add", ".")
-	Output(out, errout, err)
+	ShellRun("git", "add", ".")
 
 	// make a git commit command
-	errout, out, err = Shellout("git", "commit", "-m", commitMessage)
-	Output(out, errout, err)
+	ShellRun("git", "commit", "-m", commitMessage)
 
-	// make a git push command
-	errout, out, err = Shellout("git", "push")
-	Output(out, errout, err)
+	if isNew {
+		// make a git push command
+		ShellRun("git", "push", "origin", branchName)
+	} else {
+		ShellRun("git", "push")
+	}
 }

@@ -47,3 +47,9 @@ func Output(out, errout string, err error) {
 		log.Print(out)
 	}
 }
+
+// Run a command with error message output to screen
+func ShellRun(command string, args ...string) {
+	errout, out, err := Shellout(command, args...)
+	Output(out, errout, err)
+}
