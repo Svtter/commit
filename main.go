@@ -13,6 +13,8 @@ import (
 // v2 version of commit
 func MainV2() cli.App {
 	var commitMessage string
+
+	// TODO[svtter]: other function, like chore, docs, fix ...
 	var isFeature bool
 
 	app := &cli.App{
