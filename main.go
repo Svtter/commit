@@ -13,6 +13,7 @@ import (
 // v2 version of commit
 func MainV2() cli.App {
 	var commitMessage string
+	var branchName string
 
 	// TODO[svtter]: other function, like chore, docs, fix ...
 	var isFeature bool
@@ -32,6 +33,12 @@ func MainV2() cli.App {
 				Usage:       "Use use flag if commit is a feat",
 				Destination: &isFeature,
 			},
+			&cli.StringFlag{
+				Name:        "branch",
+				Aliases:     []string{"b"},
+				Usage:       "checkout to a new branch and make a git add/commit/push pipeline",
+				Destination: &branchName,
+			},
 		},
 		Action: func(c *cli.Context) error {
 			// fmt.Printf("%+v\n", c.Args())
@@ -40,6 +47,11 @@ func MainV2() cli.App {
 				commitMessage = "feat: " + commitMessage
 			}
 			fmt.Printf("%+v\n", commitMessage)
+
+			if len(branchName) > 0 {
+				errout, out, err := pkg.Shellout("git", "checkout", "-b", branchName)
+				pkg.Output(errout, out, err)
+			}
 
 			// check the commit message
 			if !pkg.CheckPrefix(commitMessage) {
