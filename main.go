@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -9,8 +10,10 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-func newMain() cli.App {
-	var message string
+// v2 version of commit
+func MainV2() cli.App {
+	var commitMessage string
+	var isFeature bool
 
 	app := &cli.App{
 		Name:  "commit",
@@ -19,30 +22,40 @@ func newMain() cli.App {
 			&cli.StringFlag{
 				Name:        "message",
 				Usage:       "message for current commit.",
-				Destination: &message,
+				Destination: &commitMessage,
 			},
 			&cli.BoolFlag{
-				Name:    "feat",
-				Aliases: []string{"f"},
-				Usage:   "Use use flag if commit is a feat",
+				Name:        "feat",
+				Aliases:     []string{"f"},
+				Usage:       "Use use flag if commit is a feat",
+				Destination: &isFeature,
 			},
 		},
 		Action: func(c *cli.Context) error {
 			// fmt.Printf("%+v\n", c.Args())
-			message = c.Args().First()
-			fmt.Printf("%+v\n", message)
+			commitMessage = c.Args().First()
+			if isFeature {
+				commitMessage = "feat: " + commitMessage
+			}
+			fmt.Printf("%+v\n", commitMessage)
+
+			// check the commit message
+			if !pkg.CheckPrefix(commitMessage) {
+				errMessage := "commit message is not allowed. Please input with fea/fix/docs/style/refactor/test/chore"
+				log.Println(errMessage)
+				return errors.New(errMessage)
+			}
+
+			pkg.CommitPipeline(commitMessage)
 			return nil
 		},
 	}
 	return *app
 }
 
-func oldMain() {
+// v1 version of commit
+func MainV1() {
 	var commitArgs string
-
-	// git add command
-	errout, out, err := pkg.Shellout("git", "add", ".")
-	pkg.Output(out, errout, err)
 
 	// parse command arguments
 	commandLine := pkg.LoadArgs()
@@ -58,19 +71,12 @@ func oldMain() {
 		log.Println("commit message is not allowed. Please input with fea/fix/docs/style/refactor/test/chore.")
 		return
 	}
-
-	// make a git commit command
-	errout, out, err = pkg.Shellout("git", "commit", "-m", commitArgs)
-	pkg.Output(out, errout, err)
-
-	// make a git push command
-	errout, out, err = pkg.Shellout("git", "push")
-	pkg.Output(out, errout, err)
-
+	pkg.CommitPipeline(commitArgs)
 }
 
 func main() {
-	app := newMain()
+	// MainV1()
+	app := MainV2()
 
 	err := app.Run(os.Args)
 	if err != nil {
