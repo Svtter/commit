@@ -13,6 +13,7 @@ import (
 // v2 version of commit
 func MainV2() cli.App {
 	var commitMessage string
+	var branchName string
 
 	// TODO[svtter]: other function, like chore, docs, fix ...
 	var isFeature bool
@@ -32,14 +33,27 @@ func MainV2() cli.App {
 				Usage:       "Use use flag if commit is a feat",
 				Destination: &isFeature,
 			},
+			&cli.StringFlag{
+				Name:        "branch",
+				Aliases:     []string{"b"},
+				Usage:       "checkout to a new branch and make a git add/commit/push pipeline",
+				Destination: &branchName,
+			},
 		},
 		Action: func(c *cli.Context) error {
+			isNewBranch := false
+
 			// fmt.Printf("%+v\n", c.Args())
 			commitMessage = c.Args().First()
 			if isFeature {
 				commitMessage = "feat: " + commitMessage
 			}
 			fmt.Printf("%+v\n", commitMessage)
+
+			if len(branchName) > 0 {
+				pkg.ShellRun("git", "checkout", "-b", branchName)
+				isNewBranch = true
+			}
 
 			// check the commit message
 			if !pkg.CheckPrefix(commitMessage) {
@@ -48,7 +62,7 @@ func MainV2() cli.App {
 				return errors.New(errMessage)
 			}
 
-			pkg.CommitPipeline(commitMessage)
+			pkg.CommitPipeline(commitMessage, isNewBranch, branchName)
 			return nil
 		},
 	}
@@ -73,7 +87,7 @@ func MainV1() {
 		log.Println("commit message is not allowed. Please input with fea/fix/docs/style/refactor/test/chore.")
 		return
 	}
-	pkg.CommitPipeline(commitArgs)
+	pkg.CommitPipeline(commitArgs, false, "what ever")
 }
 
 func main() {
