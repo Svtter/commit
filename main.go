@@ -3,24 +3,41 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/svtter/commit/pkg"
 	"github.com/urfave/cli/v2"
 )
 
 func newMain() cli.App {
+	var message string
+
 	app := &cli.App{
 		Name:  "commit",
 		Usage: "commit a git pipeline.",
+		Flags: []cli.Flag{
+			&cli.StringFlag{
+				Name:        "message",
+				Usage:       "message for current commit.",
+				Destination: &message,
+			},
+			&cli.BoolFlag{
+				Name:    "feat",
+				Aliases: []string{"f"},
+				Usage:   "Use use flag if commit is a feat",
+			},
+		},
 		Action: func(c *cli.Context) error {
-			fmt.Println("Hello friend!")
+			// fmt.Printf("%+v\n", c.Args())
+			message = c.Args().First()
+			fmt.Printf("%+v\n", message)
 			return nil
 		},
 	}
-	return app
+	return *app
 }
 
-func main() {
+func oldMain() {
 	var commitArgs string
 	errout, out, err := pkg.Shellout("git", "add", ".")
 	pkg.Output(out, errout, err)
@@ -42,4 +59,14 @@ func main() {
 
 	errout, out, err = pkg.Shellout("git", "push")
 	pkg.Output(out, errout, err)
+
+}
+
+func main() {
+	app := newMain()
+
+	err := app.Run(os.Args)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
