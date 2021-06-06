@@ -41,6 +41,8 @@ func MainV2() cli.App {
 			},
 		},
 		Action: func(c *cli.Context) error {
+			isNewBranch := false
+
 			// fmt.Printf("%+v\n", c.Args())
 			commitMessage = c.Args().First()
 			if isFeature {
@@ -49,8 +51,8 @@ func MainV2() cli.App {
 			fmt.Printf("%+v\n", commitMessage)
 
 			if len(branchName) > 0 {
-				errout, out, err := pkg.Shellout("git", "checkout", "-b", branchName)
-				pkg.Output(errout, out, err)
+				pkg.ShellRun("git", "checkout", "-b", branchName)
+				isNewBranch = true
 			}
 
 			// check the commit message
@@ -60,7 +62,7 @@ func MainV2() cli.App {
 				return errors.New(errMessage)
 			}
 
-			pkg.CommitPipeline(commitMessage)
+			pkg.CommitPipeline(commitMessage, isNewBranch, branchName)
 			return nil
 		},
 	}
@@ -85,7 +87,7 @@ func MainV1() {
 		log.Println("commit message is not allowed. Please input with fea/fix/docs/style/refactor/test/chore.")
 		return
 	}
-	pkg.CommitPipeline(commitArgs)
+	pkg.CommitPipeline(commitArgs, false, "what ever")
 }
 
 func main() {
