@@ -19,7 +19,6 @@ func MainV2() cli.App {
 	var isFeature bool
 	var isFix bool
 
-
 	app := &cli.App{
 		Name:  "commit",
 		Usage: "commit a git pipeline.",
