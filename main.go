@@ -17,6 +17,8 @@ func MainV2() cli.App {
 
 	// TODO[svtter]: other function, like chore, docs, fix ...
 	var isFeature bool
+	var isFix bool
+
 
 	app := &cli.App{
 		Name:  "commit",
@@ -32,6 +34,12 @@ func MainV2() cli.App {
 				Aliases:     []string{"f"},
 				Usage:       "Use use flag if commit is a feat",
 				Destination: &isFeature,
+			},
+			&cli.BoolFlag{
+				Name:        "fix",
+				Aliases:     []string{"fi"},
+				Usage:       "Use use flag if commit is a fix",
+				Destination: &isFix,
 			},
 			&cli.StringFlag{
 				Name:        "branch",
@@ -55,6 +63,12 @@ func MainV2() cli.App {
 			}
 			fmt.Printf("%+v\n", commitMessage)
 
+			if isFix {
+				commitMessage = "fix: " + commitMessage
+			}
+			fmt.Printf("%+v\n", commitMessage)
+
+			// check branchName exists
 			if len(branchName) > 0 {
 				pkg.ShellRun("git", "checkout", "-b", branchName)
 				isNewBranch = true
