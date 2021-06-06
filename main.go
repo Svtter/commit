@@ -39,9 +39,12 @@ func newMain() cli.App {
 
 func oldMain() {
 	var commitArgs string
+
+	// git add command
 	errout, out, err := pkg.Shellout("git", "add", ".")
 	pkg.Output(out, errout, err)
 
+	// parse command arguments
 	commandLine := pkg.LoadArgs()
 	if commandLine != "" {
 		commitArgs = commandLine
@@ -49,14 +52,18 @@ func oldMain() {
 	} else {
 		commitArgs = pkg.ReadFromCommand()
 	}
+
+	// check the commit message
 	if !pkg.CheckPrefix(commitArgs) {
 		log.Println("commit message is not allowed. Please input with fea/fix/docs/style/refactor/test/chore.")
 		return
 	}
 
+	// make a git commit command
 	errout, out, err = pkg.Shellout("git", "commit", "-m", commitArgs)
 	pkg.Output(out, errout, err)
 
+	// make a git push command
 	errout, out, err = pkg.Shellout("git", "push")
 	pkg.Output(out, errout, err)
 
