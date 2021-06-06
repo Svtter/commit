@@ -51,6 +51,7 @@ func MainV2() cli.App {
 			isNewBranch := false
 
 			if c.Args().Len() == 0 {
+				log.Println("Look, you type nothing so we think you are going to make a commit...")
 				MainV1()
 				return nil
 			}
