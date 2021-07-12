@@ -25,7 +25,7 @@ Use `commit -h` to learn more.
 ## Next
 
 - [ ] Combine with commit msg tools: [lintush](https://github.com/google/lintush)
-
+- [ ] History commit message.
 
 ## Related work
 
