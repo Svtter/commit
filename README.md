@@ -13,7 +13,7 @@ This tools will commit all of your changes and push current branch to remote.
 ## Install
 
 - `git clone git@github.com:Svtter/commit.git`
-- `pipx install commit`
+- `pipx install .`
 
 
 ## Usage
