@@ -4,12 +4,14 @@ import sys
 import click
 
 
-@click.group()
-def main(args=None):
+@click.group(invoke_without_command=True)
+@click.pass_context
+def main(ctx):
     """Console script for commit."""
-    click.echo("Replace this message by putting your code into "
-               "commit.cli.main")
-    click.echo("See click documentation at https://click.palletsprojects.com/")
+    # click.echo("See click documentation at https://click.palletsprojects.com/")
+    if ctx.invoked_subcommand is None:
+        click.echo("Call default command new...")
+        new.main()
     return 0
 
 
@@ -26,6 +28,8 @@ def check_msg(msg):
 @main.command()
 def new():
     """new commit for repo."""
+    os.system('git status')
+    click.echo(click.style('This will commit all above.', fg='green'))
     msg = input("commit message: ")
     if check_msg(msg):
         os.system('git add .')

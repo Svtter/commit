@@ -12,7 +12,7 @@ This tools will commit all of your changes and push current branch to remote.
 
 ## Install
 
-- `go get github.com/svtter/commit` or [Release][3]
+- `pipx install commit`
 
 
 ## Usage
