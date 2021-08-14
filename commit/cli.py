@@ -1,6 +1,7 @@
 """Console script for commit."""
 import os
 import sys
+
 import click
 
 
@@ -16,8 +17,8 @@ def main(ctx):
 
 
 def check_msg(msg):
-    prefix_list = ['feat', 'fix', 'docs', 'style', 'refactor', 'test', 'chore']
-    error_str = 'commit message is not allowed. Please input with fea/fix/docs/style/refactor/test/chore.'
+    prefix_list = ["feat", "fix", "docs", "style", "refactor", "test", "chore"]
+    error_str = "commit message is not allowed. Please input with fea/fix/docs/style/refactor/test/chore."
     for prefix in prefix_list:
         if msg.startswith(prefix):
             return True
@@ -26,15 +27,24 @@ def check_msg(msg):
 
 
 @main.command()
+def format():
+    """format the current repo."""
+    click.echo(click.style("This will format the code.", fg="green"))
+    args = ["black", "--line-length=120", "--target-version=py38"]
+    command = " ".join(args)
+    os.system(command)
+
+
+@main.command()
 def new():
     """new commit for repo."""
-    os.system('git status')
-    click.echo(click.style('This will commit all above.', fg='green'))
+    os.system("git status")
+    click.echo(click.style("This will commit all above.", fg="green"))
     msg = input("commit message: ")
     if check_msg(msg):
-        os.system('git add .')
+        os.system("git add .")
         os.system(f'git commit -m "{msg}"')
-        os.system('git push')
+        os.system("git push")
 
 
 if __name__ == "__main__":
